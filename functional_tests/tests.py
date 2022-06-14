@@ -3,16 +3,17 @@ import unittest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time 
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium.common.exceptions import WebDriverException
 MAX_WAIT = 10
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
 
     def setUp(self):
         self.browser=webdriver.Chrome()
 
     def tearDown(self):
+        self.browser.refresh()
         self.browser.quit()
 
     def wait_for_row_in_list_table(self, row_text):
@@ -76,7 +77,7 @@ class NewVisitorTest(LiveServerTestCase):
 
         edith_list_url = self.browser.current_url
         self.assertRegex(edith_list_url, '/lists/.+')
-
+        
         self.browser.quit()
         self.browser = webdriver.Chrome()
 
